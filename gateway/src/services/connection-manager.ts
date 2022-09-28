@@ -10,6 +10,7 @@ import { Pangolin } from '../connectors/pangolin/pangolin';
 import { Openocean } from '../connectors/openocean/openocean';
 import { Serum } from '../connectors/serum/serum';
 import { Quickswap } from '../connectors/quickswap/quickswap';
+import { Xsswap } from '../connectors/xsswap/xsswap';
 import { Perp } from '../connectors/perp/perp';
 import {
   Ethereumish,
@@ -81,6 +82,8 @@ export async function getConnector<T>(
     connectorInstance = Uniswap.getInstance(chain, network);
   } else if (chain === 'polygon' && connector === 'quickswap') {
     connectorInstance = Quickswap.getInstance(chain, network);
+  } else if (chain === 'xdc' && connector === 'xsswap') {
+    connectorInstance = Xsswap.getInstance(chain, network);
   } else if (chain === 'ethereum' && connector === 'sushiswap') {
     connectorInstance = Sushiswap.getInstance(chain, network);
   } else if (
