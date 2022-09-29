@@ -21,6 +21,8 @@ import {
   UNKNOWN_KNOWN_CHAIN_ERROR_MESSAGE,
 } from '../error-handler';
 
+import { convertXdcPrivateKey } from '../../helpers';
+
 const walletPath = './conf/wallets';
 
 export async function mkdirIfDoesNotExist(path: string): Promise<void> {
@@ -53,8 +55,9 @@ export async function addWallet(
     encryptedPrivateKey = await polygon.encrypt(req.privateKey, passphrase);
   } else if (req.chain === 'xdc') {
     const xdc = Xdc.getInstance(req.network);
-    address = xdc.getWalletFromPrivateKey(req.privateKey).address;
-    encryptedPrivateKey = await xdc.encrypt(req.privateKey, passphrase);    
+    const privateKey = convertXdcPrivateKey(req.privateKey);
+    address = xdc.getWalletFromPrivateKey(privateKey).address;
+    encryptedPrivateKey = await xdc.encrypt(privateKey, passphrase);
   } else if (req.chain === 'solana') {
     const solana = await Solana.getInstance(req.network);
     address = solana
